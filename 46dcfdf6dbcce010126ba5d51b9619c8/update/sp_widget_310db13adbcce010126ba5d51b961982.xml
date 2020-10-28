@@ -41,20 +41,25 @@
         <option_schema/>
         <public>false</public>
         <roles/>
-        <script><![CDATA[(function() {  /* populate the 'data' object */  /* e.g., data.table = $sp.getValue('table'); */})();]]></script>
+        <script><![CDATA[(function() { 
+	var site = gs.getProperty('x_nuai_recaptcha_w.recaptcha.secret-key');
+	var secret = gs.getProperty('x_nuai_recaptcha_w.recaptcha.site-key');
+	
+	/* populate the 'data' object */  /* e.g., data.table = $sp.getValue('table'); */
+})();]]></script>
         <servicenow>false</servicenow>
         <sys_class_name>sp_widget</sys_class_name>
         <sys_created_by>NuAxis.Innovations</sys_created_by>
         <sys_created_on>2020-10-28 01:30:19</sys_created_on>
         <sys_id>310db13adbcce010126ba5d51b961982</sys_id>
-        <sys_mod_count>2</sys_mod_count>
+        <sys_mod_count>3</sys_mod_count>
         <sys_name>ReCAPTCHA Demo</sys_name>
         <sys_package display_value="ReCAPTCHA Widget" source="x_nuai_recaptcha_w">46dcfdf6dbcce010126ba5d51b9619c8</sys_package>
         <sys_policy/>
         <sys_scope display_value="ReCAPTCHA Widget">46dcfdf6dbcce010126ba5d51b9619c8</sys_scope>
         <sys_update_name>sp_widget_310db13adbcce010126ba5d51b961982</sys_update_name>
         <sys_updated_by>eriemer</sys_updated_by>
-        <sys_updated_on>2020-10-28 20:55:34</sys_updated_on>
+        <sys_updated_on>2020-10-28 21:51:07</sys_updated_on>
         <template><![CDATA[<script src='https://www.google.com/recaptcha/api.js'></script>
 
 <div ng-hide="data.submitSuccess == true">
