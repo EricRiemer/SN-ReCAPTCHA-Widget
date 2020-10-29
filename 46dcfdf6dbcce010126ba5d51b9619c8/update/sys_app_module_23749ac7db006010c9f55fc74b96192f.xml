@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_app_module">
+    <sys_app_module action="INSERT_OR_UPDATE">
+        <active>true</active>
+        <application display_value="Recaptcha">f8941ec7db006010c9f55fc74b96190c</application>
+        <assessment/>
+        <device_type/>
+        <filter/>
+        <hint/>
+        <homepage/>
+        <image/>
+        <link_type>DIRECT</link_type>
+        <map_page/>
+        <mobile_title>Recaptcha Properties</mobile_title>
+        <mobile_view_name>Mobile</mobile_view_name>
+        <name/>
+        <order/>
+        <override_menu_roles>false</override_menu_roles>
+        <query>system_properties_ui.do?sysparm_category=reCAPTCHA&amp;sysparm_title=Recaptcha%20Settings</query>
+        <report/>
+        <roles/>
+        <sys_class_name>sys_app_module</sys_class_name>
+        <sys_created_by>eriemer</sys_created_by>
+        <sys_created_on>2020-10-28 21:52:56</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>23749ac7db006010c9f55fc74b96192f</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Recaptcha Properties</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="ReCAPTCHA Widget" source="x_nuai_recaptcha_w">46dcfdf6dbcce010126ba5d51b9619c8</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="ReCAPTCHA Widget">46dcfdf6dbcce010126ba5d51b9619c8</sys_scope>
+        <sys_update_name>sys_app_module_23749ac7db006010c9f55fc74b96192f</sys_update_name>
+        <sys_updated_by>eriemer</sys_updated_by>
+        <sys_updated_on>2020-10-28 21:52:56</sys_updated_on>
+        <timeline_page/>
+        <title>Recaptcha Properties</title>
+        <uncancelable>false</uncancelable>
+        <view_name/>
+        <window_name/>
+    </sys_app_module>
+</record_update>
