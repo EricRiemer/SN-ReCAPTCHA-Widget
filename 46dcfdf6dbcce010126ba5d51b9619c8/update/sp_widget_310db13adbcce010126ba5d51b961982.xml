@@ -5,7 +5,7 @@
 	var c = this;
 	c.cBoxFun = function() {
 		if (c.data.cBox) {
-			prompt('You agree? type name please');
+			prompt('Do you agree with the Policy? Please type CONFIRM and click Ok.');
 		}
 	}
 	c.checkCap = function() {
@@ -33,7 +33,7 @@
         <description/>
         <docs/>
         <field_list/>
-        <has_preview>false</has_preview>
+        <has_preview>true</has_preview>
         <id>recaptcha_demo</id>
         <internal>false</internal>
         <link><![CDATA[function link(scope, element, attrs, controller) {  }]]></link>
@@ -42,24 +42,61 @@
         <public>false</public>
         <roles/>
         <script><![CDATA[(function() { 
-	var site = gs.getProperty('x_nuai_recaptcha_w.recaptcha.secret-key');
-	var secret = gs.getProperty('x_nuai_recaptcha_w.recaptcha.site-key');
+	var secretKey = gs.getProperty('x_nuai_recaptcha_w.recaptcha.secret-key');
+	var siteKey = gs.getProperty('x_nuai_recaptcha_w.recaptcha.site-key');
 	
-	/* populate the 'data' object */  /* e.g., data.table = $sp.getValue('table'); */
+	data.submitSuccess = "dirtyForm";
+	data.siteKey = siteKey;
+	
+	if (input) {
+		data.captchaResponse = null;
+		data.captchaSession = input.captchaSession;
+		try {
+			var RESTCAPTCHA = new sn_ws.RESTMessageV2();
+					RESTCAPTCHA.setHttpMethod('post');
+					RESTCAPTCHA.setEndpoint('https://www.google.com/recaptcha/api/siteverify');
+					RESTCAPTCHA.setQueryParameter('secret', gs.getProperty(secretKey));
+					RESTCAPTCHA.setQueryParameter('response', data.captchaSession);
+			var captchaResponse = RESTCAPTCHA.execute();
+			if (captchaResponse.haveError()) {
+				gs.error('Error in validating captcha response: ' + captchaResponse.getErrorMessage() + '. Status code: ' + captchaResponse.getStatusCode(), 'CaptchaAjax script include');
+				data.captchaResponse = false;
+			}
+			gs.info(captchaResponse.getBody(), 'recaptcha');
+			var successResponse = JSON.parse(captchaResponse.getBody()).success;
+			gs.info(successResponse);
+			data.captchaResponse = successResponse;
+		} catch (ex) {
+			gs.error('Error in processing response from reCAPTCHA: ' + ex.message, 'CaptchaAjax script include');
+			data.captchaResponse = false;
+		}
+		submitTicket();
+	}
+	
+	function submitTicket(){ //Use this function to build a ticket from the entry form. For demo purposes it makes a log entry.
+		if(successResponse == true){
+			gs.info('successResponse = ' + successResponse + '\n' + input.fname + '\n' + input.mname + '\n' + input.lname, 'recaptcha');
+			data.submitSuccess = true;
+		}
+		else{			
+			gs.info('FAIL', 'recaptcha'); // Note useing the test key will always FAIL..... 
+			data.submitSuccess = false;
+		}
+	}
 })();]]></script>
         <servicenow>false</servicenow>
         <sys_class_name>sp_widget</sys_class_name>
         <sys_created_by>NuAxis.Innovations</sys_created_by>
         <sys_created_on>2020-10-28 01:30:19</sys_created_on>
         <sys_id>310db13adbcce010126ba5d51b961982</sys_id>
-        <sys_mod_count>3</sys_mod_count>
+        <sys_mod_count>22</sys_mod_count>
         <sys_name>ReCAPTCHA Demo</sys_name>
         <sys_package display_value="ReCAPTCHA Widget" source="x_nuai_recaptcha_w">46dcfdf6dbcce010126ba5d51b9619c8</sys_package>
         <sys_policy/>
         <sys_scope display_value="ReCAPTCHA Widget">46dcfdf6dbcce010126ba5d51b9619c8</sys_scope>
         <sys_update_name>sp_widget_310db13adbcce010126ba5d51b961982</sys_update_name>
-        <sys_updated_by>eriemer</sys_updated_by>
-        <sys_updated_on>2020-10-28 21:51:07</sys_updated_on>
+        <sys_updated_by>casey.barela@NuAxisCX.com</sys_updated_by>
+        <sys_updated_on>2020-10-29 00:54:11</sys_updated_on>
         <template><![CDATA[<script src='https://www.google.com/recaptcha/api.js'></script>
 
 <div ng-hide="data.submitSuccess == true">
@@ -74,12 +111,12 @@
       <input type="text" id="mname" name="mname" ng-model='data.mname'><br>
       <label for="fname"><span style='color: red'>*</span>Last Name:</label><br>
       <input type="text" id="lname" name="lname" ng-model='data.lname' required><br>
-      <label for="cBox"><span style='color: red'>*</span>I have read, understand, and will comply with the detailed ONRR Acceptable Use Policy</label><br>
+      <label for="cBox"><span style='color: red'>*</span>I have read, understand, and will comply with the policy...</label><br>
       <input type="checkbox" id="cBox" name="cBox" ng-model='data.cBox' ng-click="c.cBoxFun()" required><br>
      
       <br>
       
-      <div class="g-recaptcha" data-sitekey="{{data.sitekey}}"></div><br>
+      <div class="g-recaptcha" data-sitekey={{data.siteKey}}></div><br>
       
      <button id="btn_submit" name="btn_submit" class="btn btn-primary" ng-click="c.checkCap()" ng-disabled="userForm.$invalid">Submit</button>
    </form>
